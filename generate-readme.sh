@@ -4,9 +4,9 @@ README="${1:-README.md}"
 
 
 # chekcs if a file named README exist or not
-if [[ ! -f "$README"]]; then
-    echo "README file not found: $README"
-    exit 1
+if [[ ! -f "$README" ]]; then
+  echo "README file not found: $README"
+  exit 1
 fi
 
 # a variable called heading, awk command proceses 
@@ -30,19 +30,22 @@ if [[ -z "$headings" ]]; then
     exit 0
 fi
 
+# first started with an empy Toc
+# for each line in the headings - reads each line into the variable line, - counts how many '#' xters at the (heading level)
+# and lastly title variable removes the # xter to get the heading text
 toc=""
 while IFS= read -r line; do
     level=$(echo "$line" | grep -o '^#\+ ' | wc -c)
     level=$((level -1))
     title=$(echo "$line" | sed 's/^#\+ //')
     anchor_link=$(echo "$title" |tr '[:upper:]' '[:lower:]' | sed -E 's/[^a-z0-9 -]//g; s/ /-/g; s/-+/-/g')  
-    toc="${toc}$(printf "%*s" $((level-1)) '')- [${title}](#${anchor})\n"
+    toc="${toc}$(printf "%*s" $((level-1)) '')- [${title}](#${anchor_link})\n" # adds the line to the Toc with indentation and a clickable link
 done <<< "$headings"     
 
 
-toc_block="<!-- TOC -->\n${toc}"
+toc_block="<!-- TOC -->\n${toc}" # a table content block, starting with the marker `<! -- TOC --`
 
-if grep -q '<!-- TOC -->' "$README"; then
+if grep -q '<!-- TOC -->' "$README"; then # checking if there was a toc_block before
   # Replace existing TOC block
   awk -v toc_block="$toc_block" '
     BEGIN { in_toc=0 }

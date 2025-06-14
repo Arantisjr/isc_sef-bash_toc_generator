@@ -1,3 +1,11 @@
+<!-- TOC -->
+ - [GENERATE-README](#generate-readme)
+  - [ FEATURES](#-features)
+  - [USAGE ](#usage-)
+   - [CONTRIBUTE](#contribute)
+
+
+
 # GENERATE-README
 
 A bash script that scans a readme.md file and obtains the headings and creates a Table of content file
