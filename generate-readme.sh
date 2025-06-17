@@ -43,9 +43,9 @@ while IFS= read -r line; do
 done <<< "$headings"     
 
 
-toc_block="<!-- TOC -->\n${toc}" # a table content block, starting with the marker `<! -- TOC --`
+toc_block="<!-- Table of Content -->\n${toc}" # a table content block, starting with the marker `<! -- TOC --`
 
-if grep -q '<!-- TOC -->' "$README"; then # checking if there was a toc_block before
+if grep -q '<!-- Table of Content -->' "$README"; then # checking if there was a toc_block before
   # Replace existing TOC block
   awk -v toc_block="$toc_block" '
     BEGIN { in_toc=0 }
