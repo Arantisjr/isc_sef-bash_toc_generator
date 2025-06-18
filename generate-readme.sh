@@ -43,9 +43,9 @@ while IFS= read -r line; do
 done <<< "$headings"     
 
 
-toc_block="<!-- Table of Content -->\n${toc}" # a table content block, starting with the marker `<! -- TOC --`
+toc_block="## Table of Contents\n${toc}" # a table content block, starting with the marker `## Table of Contents`
 
-if grep -q '<!-- Table of Content -->' "$README"; then # checking if there was a toc_block before
+if grep -q '## Table of Contents' "$README"; then # checking if there was a toc_block before
   # Replace existing TOC block
   awk -v toc_block="$toc_block" '
     BEGIN { in_toc=0 }
@@ -58,10 +58,11 @@ if grep -q '<!-- Table of Content -->' "$README"; then # checking if there was a
     in_toc && NF==0 { in_toc=0 }
     !in_toc { print }
   ' "$README" > "${README}.tmp"
+  mv "${README}.tmp" "$README"
+  echo "README found and updated."
 else
   # Insert TOC at the top
   echo -e "$toc_block\n" | cat - "$README" > "${README}.tmp"
+  mv "${README}.tmp" "$README"
+  echo "Table of Contents updated in $README"
 fi
-
-mv "${README}.tmp" "$README"
-echo "Table of Contents updated in $README"
