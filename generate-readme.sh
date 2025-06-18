@@ -64,5 +64,5 @@ else
   # Insert TOC at the top
   echo -e "$toc_block\n" | cat - "$README" > "${README}.tmp"
   mv "${README}.tmp" "$README"
-  echo "Table of Contents updated in $README"
+  echo "Table of Contents Created in $README"
 fi
